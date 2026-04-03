@@ -4,7 +4,33 @@ export default function BoldTemplate({ resume }) {
   const renderSection = (sectionId) => {
     switch (sectionId) {
       case 'profile':
-        return null; // Profile is rendered separately at the top
+        return (
+          <div key={sectionId} className="mb-8">
+            <div className="text-center pb-6 border-b border-slate-700">
+              <h1 className="text-4xl font-black text-white tracking-tight mb-2">
+                {profile.fullName || 'Your Name'}
+              </h1>
+              {profile.jobTitle && (
+                <h2 className="text-lg text-amber-400 font-bold tracking-widest uppercase mb-4">
+                  {profile.jobTitle}
+                </h2>
+              )}
+              <div className="flex flex-wrap justify-center gap-6 text-sm text-slate-400">
+                {profile.email && <span className="hover:text-white transition-colors">{profile.email}</span>}
+                {profile.phone && <span className="hover:text-white transition-colors">{profile.phone}</span>}
+                {profile.linkedin && <a href={profile.linkedin.startsWith('http') ? profile.linkedin : `https://${profile.linkedin}`} target="_blank" rel="noreferrer" className="hover:text-white hover:underline transition-colors">{profile.linkedin.replace('https://', '')}</a>}
+                {profile.github && <a href={profile.github.startsWith('http') ? profile.github : `https://${profile.github}`} target="_blank" rel="noreferrer" className="hover:text-white hover:underline transition-colors">{profile.github.replace('https://', '')}</a>}
+              </div>
+            </div>
+            {profile.summary && (
+              <div className="mt-8 bg-slate-800/50 border border-slate-700 rounded-lg p-4">
+                <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-line">
+                  {profile.summary}
+                </p>
+              </div>
+            )}
+          </div>
+        );
 
       case 'experience':
         if (experience.length === 0) return null;
@@ -19,7 +45,7 @@ export default function BoldTemplate({ resume }) {
                   <div className="flex justify-between items-baseline mb-1">
                     <h4 className="font-bold text-base text-white">{exp.role}</h4>
                     <span className="text-xs text-slate-400 font-medium whitespace-nowrap ml-4">
-                      {exp.startDate} — {exp.endDate}
+                      {exp.startDate} - {exp.endDate}
                     </span>
                   </div>
                   <div className="text-sm text-amber-400 font-semibold mb-2">{exp.company}{exp.location ? ` · ${exp.location}` : ''}</div>
@@ -49,7 +75,7 @@ export default function BoldTemplate({ resume }) {
                 <div key={edu.id}>
                   <div className="flex justify-between items-baseline">
                     <h4 className="font-bold text-sm text-white">{edu.degree}</h4>
-                    <span className="text-xs text-slate-400 font-medium">{edu.startDate} — {edu.endDate}</span>
+                    <span className="text-xs text-slate-400 font-medium">{edu.startDate} - {edu.endDate}</span>
                   </div>
                   <div className="text-sm text-amber-400 font-semibold">{edu.school}</div>
                   {edu.gpa && <div className="text-xs text-slate-400 mt-1">GPA: {edu.gpa}</div>}
@@ -88,7 +114,7 @@ export default function BoldTemplate({ resume }) {
                 <div key={proj.id}>
                   <div className="flex justify-between items-baseline">
                     <h4 className="font-bold text-sm text-white">{proj.name}</h4>
-                    {proj.link && <span className="text-xs text-amber-400 truncate max-w-[200px]">{proj.link}</span>}
+                    {proj.link && <a href={proj.link.startsWith('http') ? proj.link : `https://${proj.link}`} target="_blank" rel="noreferrer" className="text-xs text-amber-400 hover:text-amber-300 hover:underline truncate max-w-[200px]">Link ↗</a>}
                   </div>
                   <div className="text-xs text-amber-400/80 font-medium mb-1">{proj.technologies}</div>
                   <p className="text-sm text-slate-300 leading-relaxed">{proj.description}</p>
@@ -116,31 +142,6 @@ export default function BoldTemplate({ resume }) {
 
   return (
     <div className="px-10 py-12 bg-slate-900 text-left font-sans w-[800px] min-h-[1056px] mx-auto">
-      {/* Header */}
-      <div className="text-center mb-8 pb-6 border-b border-slate-700">
-        <h1 className="text-4xl font-black text-white tracking-tight mb-2">
-          {profile.fullName || 'Your Name'}
-        </h1>
-        <h2 className="text-lg text-amber-400 font-bold tracking-widest uppercase mb-4">
-          {profile.jobTitle || 'Professional Title'}
-        </h2>
-        <div className="flex flex-wrap justify-center gap-6 text-sm text-slate-400">
-          {profile.email && <span className="hover:text-white transition-colors">{profile.email}</span>}
-          {profile.phone && <span className="hover:text-white transition-colors">{profile.phone}</span>}
-          {profile.linkedin && <span className="hover:text-white transition-colors">{profile.linkedin.replace('https://', '')}</span>}
-          {profile.github && <span className="hover:text-white transition-colors">{profile.github.replace('https://', '')}</span>}
-        </div>
-      </div>
-
-      {/* Summary */}
-      {profile.summary && (
-        <div className="mb-8 bg-slate-800/50 border border-slate-700 rounded-lg p-4">
-          <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-line">
-            {profile.summary}
-          </p>
-        </div>
-      )}
-
       {/* Sections */}
       {sectionOrder.map((sectionId) => renderSection(sectionId))}
     </div>

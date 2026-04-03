@@ -21,6 +21,10 @@ const resumeSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  theme: {
+    fontFamily: { type: String, default: 'inter' },
+    colorTheme: { type: String, default: 'brand' },
+  },
   sectionOrder: {
     type: [String],
     default: ['profile', 'experience', 'education', 'skills', 'projects'],

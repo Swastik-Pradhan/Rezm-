@@ -46,7 +46,7 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return api(originalRequest);
       } catch (refreshError) {
-        // Refresh token failed/expired — logout user
+        // Refresh token failed/expired - logout user
         localStorage.removeItem('accessToken');
         if (typeof window !== 'undefined') {
           window.location.href = '/login';

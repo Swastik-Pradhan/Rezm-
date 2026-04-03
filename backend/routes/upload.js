@@ -38,7 +38,7 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
 });
 
-// POST /api/upload — Upload profile photo
+// POST /api/upload - Upload profile photo
 router.post('/', auth, upload.single('photo'), (req, res) => {
   try {
     if (!req.file) {

@@ -7,16 +7,21 @@ export default function ClassicTemplate({ resume }) {
         return (
           <div key={sectionId} className="text-center border-b-2 border-slate-800 pb-4 mb-6">
             <h1 className="text-4xl font-serif text-slate-900 tracking-wide uppercase">{profile.fullName || 'Your Name'}</h1>
-            <h2 className="text-lg text-slate-700 font-serif mt-2 italic">{profile.jobTitle || 'Professional Title'}</h2>
+            {profile.jobTitle && <h2 className="text-lg text-slate-700 font-serif mt-2 italic">{profile.jobTitle}</h2>}
             <div className="flex justify-center flex-wrap gap-x-4 gap-y-1 mt-3 text-sm text-slate-600 font-serif">
               {profile.email && <span>{profile.email}</span>}
               {profile.email && profile.phone && <span>|</span>}
               {profile.phone && <span>{profile.phone}</span>}
               {profile.phone && profile.linkedin && <span>|</span>}
-              {profile.linkedin && <span>{profile.linkedin.replace('https://', '')}</span>}
+              {profile.linkedin && <a href={profile.linkedin.startsWith('http') ? profile.linkedin : `https://${profile.linkedin}`} target="_blank" rel="noreferrer" className="hover:text-slate-900 hover:underline">{profile.linkedin.replace('https://', '')}</a>}
               {profile.linkedin && profile.github && <span>|</span>}
-              {profile.github && <span>{profile.github.replace('https://', '')}</span>}
+              {profile.github && <a href={profile.github.startsWith('http') ? profile.github : `https://${profile.github}`} target="_blank" rel="noreferrer" className="hover:text-slate-900 hover:underline">{profile.github.replace('https://', '')}</a>}
             </div>
+            {profile.summary && (
+              <div className="mt-6 text-sm text-slate-800 leading-relaxed whitespace-pre-line text-justify text-left">
+                {profile.summary}
+              </div>
+            )}
           </div>
         );
 
@@ -85,7 +90,10 @@ export default function ClassicTemplate({ resume }) {
               {projects.map(proj => (
                 <div key={proj.id}>
                   <div className="flex justify-between items-baseline">
-                    <h4 className="font-bold text-slate-800 text-base">{proj.name}</h4>
+                    <h4 className="font-bold text-slate-800 text-base">
+                      {proj.name}
+                      {proj.link && <a href={proj.link.startsWith('http') ? proj.link : `https://${proj.link}`} className="text-sm font-normal ml-2 text-slate-500 hover:underline hover:text-slate-800" target="_blank" rel="noreferrer">Link ↗</a>}
+                    </h4>
                   </div>
                   <div className="text-sm italic text-slate-600 mb-1">{proj.technologies}</div>
                   <p className="text-sm text-slate-700">{proj.description}</p>
@@ -111,15 +119,7 @@ export default function ClassicTemplate({ resume }) {
 
   return (
     <div className="p-10 bg-white text-left font-serif w-[800px] min-h-[1056px] mx-auto shadow-sm">
-      {renderSection('profile')}
-      
-      {profile.summary && (
-        <div className="mb-6 text-sm text-slate-800 leading-relaxed whitespace-pre-line text-justify">
-          {profile.summary}
-        </div>
-      )}
-
-      {sectionOrder.map(sectionId => sectionId !== 'profile' && renderSection(sectionId))}
+      {sectionOrder.map(sectionId => renderSection(sectionId))}
     </div>
   );
 }

@@ -7,12 +7,21 @@ export default function MinimalTemplate({ resume }) {
         return (
           <div key={sectionId} className="mb-10 text-center">
             <h1 className="text-4xl font-light text-gray-900 tracking-tight">{profile.fullName || 'Your Name'}</h1>
-            <h2 className="text-lg text-gray-500 font-light mt-1">{profile.jobTitle || 'Professional Title'}</h2>
+            {profile.jobTitle && <h2 className="text-lg text-gray-500 font-light mt-1">{profile.jobTitle}</h2>}
             <div className="flex justify-center flex-wrap gap-4 mt-4 text-xs text-gray-400 uppercase tracking-widest">
               {profile.email && <span>{profile.email}</span>}
               {profile.phone && <span>{profile.phone}</span>}
-              {profile.linkedin && <span>{profile.linkedin.replace('https://', '')}</span>}
+              {profile.linkedin && <a href={profile.linkedin.startsWith('http') ? profile.linkedin : `https://${profile.linkedin}`} target="_blank" rel="noreferrer" className="hover:text-gray-900 hover:underline transition-colors">{profile.linkedin.replace('https://', '')}</a>}
+              {profile.github && <a href={profile.github.startsWith('http') ? profile.github : `https://${profile.github}`} target="_blank" rel="noreferrer" className="hover:text-gray-900 hover:underline transition-colors">{profile.github.replace('https://', '')}</a>}
             </div>
+            {profile.summary && (
+              <div className="mt-8">
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">About</h3>
+                <div className="text-sm text-gray-600 whitespace-pre-line leading-relaxed text-left max-w-3xl mx-auto">
+                  {profile.summary}
+                </div>
+              </div>
+            )}
           </div>
         );
 
@@ -27,7 +36,7 @@ export default function MinimalTemplate({ resume }) {
               {experience.map(exp => (
                 <div key={exp.id}>
                   <div className="flex justify-between items-baseline mb-1">
-                    <h4 className="font-medium text-gray-900">{exp.role} — {exp.company}</h4>
+                    <h4 className="font-medium text-gray-900">{exp.role} - {exp.company}</h4>
                     <span className="text-xs text-gray-400">
                       {exp.startDate} - {exp.endDate}
                     </span>
@@ -87,7 +96,10 @@ export default function MinimalTemplate({ resume }) {
             <div className="w-3/4 space-y-4">
               {projects.map(proj => (
                 <div key={proj.id}>
-                  <h4 className="font-medium text-gray-900">{proj.name}</h4>
+                  <h4 className="font-medium text-gray-900">
+                    {proj.name}
+                    {proj.link && <a href={proj.link.startsWith('http') ? proj.link : `https://${proj.link}`} target="_blank" rel="noreferrer" className="ml-2 text-xs text-gray-500 hover:text-gray-800 hover:underline">Link ↗</a>}
+                  </h4>
                   <div className="text-xs text-gray-400 mb-1">{proj.technologies}</div>
                   <p className="text-sm text-gray-600">{proj.description}</p>
                 </div>
@@ -116,20 +128,7 @@ export default function MinimalTemplate({ resume }) {
 
   return (
     <div className="p-12 bg-white text-left font-sans w-[800px] min-h-[1056px] mx-auto shadow-sm">
-      {renderSection('profile')}
-      
-      {profile.summary && (
-        <div className="mb-8 flex">
-          <div className="w-1/4 pr-4">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest pt-1">About</h3>
-          </div>
-          <div className="w-3/4 text-sm text-gray-600 whitespace-pre-line leading-relaxed">
-            {profile.summary}
-          </div>
-        </div>
-      )}
-
-      {sectionOrder.map(sectionId => sectionId !== 'profile' && renderSection(sectionId))}
+      {sectionOrder.map(sectionId => renderSection(sectionId))}
     </div>
   );
 }

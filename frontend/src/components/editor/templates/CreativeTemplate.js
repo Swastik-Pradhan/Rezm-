@@ -4,7 +4,6 @@ export default function CreativeTemplate({ resume }) {
   const renderSection = (sectionId, index) => {
     switch (sectionId) {
       case 'profile':
-        if (index !== 0) return null; // Handled separately at top
         return (
           <div key={sectionId} className="bg-emerald-900 text-white p-10 flex flex-col items-start rounded-b-3xl mb-8 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
@@ -15,11 +14,12 @@ export default function CreativeTemplate({ resume }) {
               )}
               <div className="flex-1">
                 <h1 className="text-4xl font-extrabold tracking-tight">{profile.fullName || 'Your Name'}</h1>
-                <h2 className="text-xl text-emerald-300 font-medium mt-1">{profile.jobTitle || 'Creative Professional'}</h2>
+                {profile.jobTitle && <h2 className="text-xl text-emerald-300 font-medium mt-1">{profile.jobTitle}</h2>}
                 <div className="flex flex-wrap gap-4 mt-4 text-sm text-emerald-100/80 font-medium">
                   {profile.email && <span>{profile.email}</span>}
                   {profile.phone && <span>{profile.phone}</span>}
-                  {profile.linkedin && <span>{profile.linkedin.replace('https://', '')}</span>}
+                  {profile.linkedin && <a href={profile.linkedin.startsWith('http') ? profile.linkedin : `https://${profile.linkedin}`} target="_blank" rel="noreferrer" className="hover:text-white hover:underline">{profile.linkedin.replace('https://', '')}</a>}
+                  {profile.github && <a href={profile.github.startsWith('http') ? profile.github : `https://${profile.github}`} target="_blank" rel="noreferrer" className="hover:text-white hover:underline">{profile.github.replace('https://', '')}</a>}
                 </div>
               </div>
             </div>
@@ -116,7 +116,10 @@ export default function CreativeTemplate({ resume }) {
               {projects.map(proj => (
                 <div key={proj.id} className="bg-emerald-50/50 p-5 rounded-2xl border border-emerald-100">
                   <div className="flex justify-between items-baseline mb-2">
-                    <h4 className="font-bold text-emerald-950 text-base">{proj.name}</h4>
+                    <h4 className="font-bold text-emerald-950 text-base">
+                      {proj.name}
+                      {proj.link && <a href={proj.link.startsWith('http') ? proj.link : `https://${proj.link}`} className="text-emerald-600 ml-2 text-xs font-normal hover:underline" target="_blank" rel="noreferrer">Link ↗</a>}
+                    </h4>
                   </div>
                   <div className="flex flex-wrap gap-1 mb-2">
                     {proj.technologies.split(',').map((tech, i) => (
@@ -151,7 +154,6 @@ export default function CreativeTemplate({ resume }) {
 
   return (
     <div className="bg-white text-left font-sans w-[800px] min-h-[1056px] mx-auto shadow-sm pb-10">
-      {renderSection('profile', 0)}
       {sectionOrder.map((sectionId, index) => renderSection(sectionId, index, true))}
     </div>
   );

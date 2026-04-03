@@ -221,7 +221,9 @@ export default function RightPanel() {
             minHeight: '1056px',
             transform: 'scale(0.85)',
             transformOrigin: 'top center',
-            marginBottom: '-15%' 
+            marginBottom: '-15%',
+            '--brand-default': currentResume.theme?.colorTheme || '#534AB7',
+            '--font-inter': currentResume.theme?.fontFamily || 'var(--font-inter)'
           }}
         >
           {renderTemplateView()}

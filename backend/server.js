@@ -17,7 +17,7 @@ const app = express();
 // Security headers
 app.use(helmet());
 
-// Rate limiting — 100 requests per 15 minutes per IP
+// Rate limiting - 100 requests per 15 minutes per IP
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -27,7 +27,7 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// Stricter rate limit for auth routes — 20 requests per 15 minutes
+// Stricter rate limit for auth routes - 20 requests per 15 minutes
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 20,

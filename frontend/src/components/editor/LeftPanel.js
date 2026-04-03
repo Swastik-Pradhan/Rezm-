@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { localUpdateResume } from '@/store/resumeSlice';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { LayoutTemplate, Layers, GripVertical, Plus, Trash2 } from 'lucide-react';
+import { LayoutTemplate, Layers, Palette, GripVertical, Plus, Trash2 } from 'lucide-react';
 
 const templates = [
   { id: 'modern', name: 'Modern', color: 'bg-brand/10 text-brand border-brand/20' },
@@ -21,6 +21,22 @@ const availableSections = [
   { id: 'education', label: 'Education' },
   { id: 'skills', label: 'Skills' },
   { id: 'projects', label: 'Projects' },
+];
+
+const colorThemes = [
+  { id: 'brand', name: 'Default Blue', hex: '#534AB7' },
+  { id: 'emerald', name: 'Emerald', hex: '#10b981' },
+  { id: 'rose', name: 'Rose', hex: '#f43f5e' },
+  { id: 'amber', name: 'Amber', hex: '#f59e0b' },
+  { id: 'slate', name: 'Slate', hex: '#334155' },
+  { id: 'violet', name: 'Violet', hex: '#8b5cf6' },
+];
+
+const fontFamilies = [
+  { id: 'var(--font-inter)', name: 'Inter (Sans)' },
+  { id: 'var(--font-merriweather)', name: 'Merriweather (Serif)' },
+  { id: 'var(--font-fira)', name: 'Fira Code (Mono)' },
+  { id: 'var(--font-roboto-slab)', name: 'Roboto Slab' },
 ];
 
 export default function LeftPanel() {
@@ -103,6 +119,17 @@ export default function LeftPanel() {
           <Layers className="w-4 h-4" />
           Sections
         </button>
+        <button
+           className={`flex-1 py-3 text-sm font-medium border-b-2 transition-colors flex items-center justify-center gap-2 ${
+            activeTab === 'design' 
+              ? 'border-brand text-brand bg-brand/5' 
+              : 'border-transparent text-surface-500 hover:text-surface-700 hover:bg-surface-50'
+          }`}
+          onClick={() => setActiveTab('design')}
+        >
+          <Palette className="w-4 h-4" />
+          Design
+        </button>
       </div>
 
       {/* Content */}
@@ -128,6 +155,44 @@ export default function LeftPanel() {
                   </span>
                 </button>
               ))}
+            </div>
+          </div>
+        ) : activeTab === 'design' ? (
+          <div className="space-y-8">
+            <div>
+              <h3 className="text-xs font-semibold text-surface-500 uppercase tracking-wider mb-3">Color Theme</h3>
+              <div className="flex flex-wrap gap-3">
+                {colorThemes.map((color) => (
+                  <button
+                    key={color.id}
+                    onClick={() => dispatch(localUpdateResume({ theme: { ...(currentResume.theme || {}), colorTheme: color.hex } }))}
+                    className={`w-10 h-10 rounded-full border-2 transition-transform hover:scale-110 flex items-center justify-center
+                      ${(currentResume.theme?.colorTheme || '#534AB7') === color.hex ? 'border-surface-900 ring-2 ring-offset-2 ring-surface-300' : 'border-transparent'}
+                    `}
+                    style={{ backgroundColor: color.hex }}
+                    title={color.name}
+                  >
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xs font-semibold text-surface-500 uppercase tracking-wider mb-3">Typography</h3>
+              <div className="space-y-2">
+                {fontFamilies.map((font) => (
+                  <button
+                    key={font.id}
+                    onClick={() => dispatch(localUpdateResume({ theme: { ...(currentResume.theme || {}), fontFamily: font.id } }))}
+                    className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-colors
+                      ${(currentResume.theme?.fontFamily || 'var(--font-inter)') === font.id ? 'border-brand bg-brand/5 text-brand' : 'border-surface-200 hover:border-surface-300 text-surface-700 hover:bg-surface-50'}
+                    `}
+                    style={{ fontFamily: font.id }}
+                  >
+                    {font.name}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         ) : (

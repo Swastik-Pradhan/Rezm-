@@ -7,7 +7,7 @@ const router = express.Router();
 // All routes require authentication
 router.use(auth);
 
-// GET /api/resumes — Get all resumes for the authenticated user
+// GET /api/resumes - Get all resumes for the authenticated user
 router.get('/', async (req, res) => {
   try {
     const resumes = await Resume.find({ userId: req.userId })
@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/resumes/:id — Get a single resume
+// GET /api/resumes/:id - Get a single resume
 router.get('/:id', async (req, res) => {
   try {
     const resume = await Resume.findOne({ _id: req.params.id, userId: req.userId });
@@ -35,7 +35,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST /api/resumes — Create a new resume
+// POST /api/resumes - Create a new resume
 router.post('/', async (req, res) => {
   try {
     const resume = new Resume({
@@ -52,13 +52,13 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT /api/resumes/:id — Update a resume (auto-save)
+// PUT /api/resumes/:id - Update a resume (auto-save)
 router.put('/:id', async (req, res) => {
   try {
     const allowedFields = [
       'title', 'template', 'sectionOrder', 'profile',
       'experience', 'education', 'skills', 'projects', 'atsScore',
-      'customSections', 'customTemplateHtml',
+      'customSections', 'customTemplateHtml', 'theme',
     ];
 
     const updates = {};
@@ -85,7 +85,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE /api/resumes/:id — Delete a resume
+// DELETE /api/resumes/:id - Delete a resume
 router.delete('/:id', async (req, res) => {
   try {
     const resume = await Resume.findOneAndDelete({

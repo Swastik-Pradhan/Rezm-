@@ -4,16 +4,21 @@ export default function ProfessionalTemplate({ resume }) {
   const renderSection = (sectionId, index) => {
     switch (sectionId) {
       case 'profile':
-        if (index !== 0) return null; // Force profile to top
         return (
           <div key={sectionId} className="flex flex-col items-center border-b-4 border-slate-700 pb-6 mb-6">
             <h1 className="text-3xl font-bold text-slate-800 tracking-wide uppercase">{profile.fullName || 'Your Name'}</h1>
-            <h2 className="text-md text-slate-600 font-semibold mt-1 uppercase tracking-widest">{profile.jobTitle || 'Professional Title'}</h2>
+            {profile.jobTitle && <h2 className="text-md text-slate-600 font-semibold mt-1 uppercase tracking-widest">{profile.jobTitle}</h2>}
             <div className="flex flex-wrap justify-center gap-4 mt-3 text-sm text-slate-600">
               {profile.email && <span>{profile.email}</span>}
               {profile.phone && <span>{profile.phone}</span>}
-              {profile.linkedin && <span>{profile.linkedin.replace('https://', '')}</span>}
+              {profile.linkedin && <a href={profile.linkedin.startsWith('http') ? profile.linkedin : `https://${profile.linkedin}`} target="_blank" rel="noreferrer" className="hover:text-slate-800 hover:underline transition-colors">{profile.linkedin.replace('https://', '')}</a>}
+              {profile.github && <a href={profile.github.startsWith('http') ? profile.github : `https://${profile.github}`} target="_blank" rel="noreferrer" className="hover:text-slate-800 hover:underline transition-colors">{profile.github.replace('https://', '')}</a>}
             </div>
+            {profile.summary && (
+              <div className="mt-6 text-sm text-slate-700 leading-relaxed text-justify whitespace-pre-line border-t border-slate-200 pt-6 w-full">
+                {profile.summary}
+              </div>
+            )}
           </div>
         );
 
@@ -99,7 +104,10 @@ export default function ProfessionalTemplate({ resume }) {
               {projects.map(proj => (
                 <div key={proj.id}>
                   <div className="flex justify-between items-baseline">
-                    <h4 className="font-bold text-sm text-slate-800">{proj.name}</h4>
+                    <h4 className="font-bold text-sm text-slate-800">
+                      {proj.name}
+                      {proj.link && <a href={proj.link.startsWith('http') ? proj.link : `https://${proj.link}`} target="_blank" rel="noreferrer" className="ml-2 text-xs font-normal text-slate-500 hover:text-slate-800 hover:underline">Link ↗</a>}
+                    </h4>
                   </div>
                   <div className="text-sm italic text-slate-600 mb-1">{proj.technologies}</div>
                   <p className="text-sm text-slate-700 leading-relaxed">{proj.description}</p>
@@ -128,16 +136,6 @@ export default function ProfessionalTemplate({ resume }) {
 
   return (
     <div className="px-10 py-12 bg-white text-left font-sans w-[800px] min-h-[1056px] mx-auto shadow-sm">
-      {renderSection('profile', 0)}
-      
-      {profile.summary && (
-        <div className="mb-6">
-          <p className="text-sm text-slate-700 leading-relaxed text-justify whitespace-pre-line">
-            {profile.summary}
-          </p>
-        </div>
-      )}
-
       {sectionOrder.map((sectionId, index) => renderSection(sectionId, index))}
     </div>
   );

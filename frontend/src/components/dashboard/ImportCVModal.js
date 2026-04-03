@@ -194,7 +194,7 @@ export default function ImportCVModal({ isOpen, onClose }) {
           <div className="mt-5 p-4 border border-surface-200 rounded-xl bg-surface-50 flex items-center justify-between">
             <div>
               <h4 className="text-sm font-semibold text-surface-900">AI Clone Design <span className="text-[10px] bg-brand text-white px-2 py-0.5 rounded-full ml-1">BETA</span></h4>
-              <p className="text-xs text-surface-500 mt-1 mr-4">Don't just extract text — fully clone the visual layout, colors, and fonts of this exact resume into a custom editable template!</p>
+              <p className="text-xs text-surface-500 mt-1 mr-4">Don't just extract text - fully clone the visual layout, colors, and fonts of this exact resume into a custom editable template!</p>
             </div>
             <button
                onClick={() => setCloneDesign(!cloneDesign)}

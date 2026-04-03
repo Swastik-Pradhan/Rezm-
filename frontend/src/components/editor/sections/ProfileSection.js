@@ -148,6 +148,16 @@ export default function ProfileSection() {
               onChange={(e) => updateProfile('linkedin', e.target.value)}
             />
           </div>
+          <div>
+            <label className="label-text flex items-center gap-1.5"><LinkIcon className="w-3.5 h-3.5" /> GitHub</label>
+            <input
+              type="text"
+              className="input-field py-2"
+              placeholder="github.com/alex"
+              value={profile.github}
+              onChange={(e) => updateProfile('github', e.target.value)}
+            />
+          </div>
           <div className="col-span-1 sm:col-span-2 border-b border-surface-100 pb-2 mt-2"></div>
         </div>
       </div>

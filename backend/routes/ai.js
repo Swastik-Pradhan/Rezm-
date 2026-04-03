@@ -9,7 +9,7 @@ const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 
 
-// POST /api/ai/enhance — Enhance resume summary with Gemini
+// POST /api/ai/enhance - Enhance resume summary with Gemini
 router.post('/enhance', auth, async (req, res) => {
   try {
     const { text, jobTitle, section } = req.body;
@@ -83,7 +83,7 @@ ${text}`;
   }
 });
 
-// POST /api/ai/import — Extract resume data from PDF/Image using Gemini
+// POST /api/ai/import - Extract resume data from PDF/Image using Gemini
 router.post('/import', auth, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
@@ -146,7 +146,7 @@ Make sure dates are short (e.g. 'Jan 2020'). Keep bullets concise. Generate uniq
   }
 });
 
-// POST /api/ai/import-template — Extract exact visual design AND data into a Handlebars template
+// POST /api/ai/import-template - Extract exact visual design AND data into a Handlebars template
 router.post('/import-template', auth, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
@@ -224,7 +224,7 @@ Do NOT include any markdown blocks or \`\`\`json. Return strictly the raw JSON o
   }
 });
 
-// POST /api/ai/analyze-ats — Compare Resume JSON context against Job Description
+// POST /api/ai/analyze-ats - Compare Resume JSON context against Job Description
 router.post('/analyze-ats', auth, async (req, res) => {
   try {
     const { resumeData, jobDescription } = req.body;

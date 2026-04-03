@@ -303,7 +303,7 @@ export default function Dashboard() {
                       </li>
                       <li className="flex items-center gap-2">
                         <div className="w-1.5 h-1.5 rounded-full bg-brand"></div>
-                        Keep your summary concise — aim for 3-4 impactful sentences. Let the AI optimize it for your target role.
+                        Keep your summary concise - aim for 3-4 impactful sentences. Let the AI optimize it for your target role.
                       </li>
                       <li className="flex items-center gap-2">
                         <div className="w-1.5 h-1.5 rounded-full bg-brand"></div>
